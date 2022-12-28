@@ -1,0 +1,81 @@
+@import './typography', './variable';
+
+/* BUTTONS */
+
+@mixin btn($background, $border-color, $color) {
+
+  box-sizing: border-box;
+
+  @apply flex flex-row justify-center items-center px-5 py-3 gap-2 text-center h-full;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  font-family: 'Inter-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  transition: 0.3s;
+  border-width: 1px;
+  border-style: solid;
+  background: $background;
+  border-color: $border-color;
+  color: $color;
+}
+
+@mixin hoverActiveBtn($hover, $active) {
+  &:hover {
+    background: $hover;
+    border-color: $hover;
+    color: white;
+  }
+
+  &:active {
+    background: $active;
+    border-color: $active;
+  }
+}
+
+$colors: (
+  'purple': ($color-purple-button, $color-purple-button, white, $color-pink, $color-pink),
+  'pink': ($color-pink, $color-pink, white, $color-purple-button, $color-purple-button),
+  'white': (white,white,$color-gray-button,$color-gray, $color-gray),
+  'white-bordered': (white,$border-button-gray,$color-gray-button,$color-gray, $color-gray)
+);
+
+@each $name, $color in $colors {
+  .btn-#{$name}{
+    @include btn(nth($color, 1), nth($color, 2), nth($color, 3));
+    @include hoverActiveBtn(nth($color, 4),  nth($color, 5))
+  }
+}
+
+
+
+
+/* LINKS HEADER FOOTER */
+
+@mixin linksHeaderFooter($color, $active) {
+  font-family: 'Inter-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 1.5em;
+  transition: 0.3s;
+  color: $color;
+
+  &.active{
+    color: $active;
+  }
+}
+
+$colors-header-footer: (
+  'header': (white, $color-active-page-header),
+  'footer': ($color-gray, $color-active-page-footer)
+);
+
+@each $name, $color in $colors-header-footer {
+  .links-#{$name} {
+    @include linksHeaderFooter(nth($color, 1), nth($color, 2));
+    @apply hover:text-color-pink active:text-color-pink;
+  }
+}

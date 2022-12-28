@@ -1,0 +1,53 @@
+@import './variable', './fonts';
+
+h1,h2,h3,h4,h5,h6,p {
+  margin: 0px;
+}
+
+h6  {
+  /* Text md/Semibold */
+  font-family: "Inter-SemiBold";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: $color-pink;
+}
+
+h2  {
+  font-family: "Chillax-Variable";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 2.75rem;
+  color: $color-black;
+}
+
+/* Text */
+h3 {
+  font-family: 'Inter-Medium';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  text-align: center;
+  color: $color-blue;
+}
+
+h1 {
+    font-family: 'Chillax-Variable';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 4rem;
+    line-height: 4.5rem;
+    color: white;
+}
+
+h5 {
+    font-family: 'Inter-Normal';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.875rem;
+    color:$color-gray;
+}
