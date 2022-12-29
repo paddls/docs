@@ -1,0 +1,157 @@
+<html lang="en">
+@@include('../../../templates/head.html', {
+'title' : 'Repository - Paddls',
+'description' : 'Repository'
+})
+
+<body>
+@@include('../../../templates/header.html')
+
+<section class="content">
+    @@include('../../../templates/summary/repository.html')
+
+    <article>
+        <h2 id="basic-usage">Basic usage</h2>
+
+        <p>
+            This library abstracts the data access layer of your Angular project. You just need to provide some
+            configuration thanks to typescript decorators to start using auto-generated repositories.
+        </p>
+
+        <h3 id="resource">Resource</h3>
+
+        <p>
+            Start by creating a Typescript class for the type of resource you need to manipulate with NgxRepository.
+            Once
+            this is
+            done, you can start annotating this class with the following decorators.
+        </p>
+
+        <h4 id="httpresource-and-firestoreresource">HttpResource and FirestoreResource</h4>
+
+        <p>
+            First, add a <code>@HttpResource()</code> or <code>@FirestoreResource()</code> decorator (depending on which
+            protocol you wish to use)
+            on the resource class. The most basic configuration for this annotation consists in giving the HTTP or
+            Firestore
+            resource path of the resource.
+        </p>
+
+        <pre>
+            <code class="lang-typescript">
+<span class="hljs-keyword">import</span> { FirestoreResource } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
+<span class="hljs-keyword">import</span> { HttpResource } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/ngx-http-repository'</span>;
+
+<span class="hljs-comment">// for Http</span>
+<span class="hljs-meta">@HttpResource({
+  path: <span class="hljs-meta-string">'/api/users'</span>
+})</span>
+<span class="hljs-comment">// or for Firestore</span>
+<span class="hljs-meta">@FirestoreResource({
+  path: <span class="hljs-meta-string">'/users'</span>
+})</span>
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> {</span>
+  // ...
+}
+            </code>
+        </pre>
+
+        <h4 id="id-and-column">Id and Column</h4>
+
+        <p>
+            Then, add an <code>@Id()</code> decorator on the resource id and <code>@Column()</code> decorators on each
+            resource
+            field you want mapped with
+            NgxRepository.
+        </p>
+
+        <pre>
+            <code class="lang-typescript">
+<span class="hljs-keyword">import</span> { FirestoreResource } from <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
+<span class="hljs-keyword">import</span> { HttpResource } from <span class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { Id, Column } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+
+<span class="hljs-comment">// for Http</span>
+<span class="hljs-meta">@HttpResource({
+  path: <span class="hljs-meta-string">'/api/users'</span>
+})</span>
+<span class="hljs-comment">// or for Firestore</span>
+<span class="hljs-meta">@FirestoreResource({
+  path: <span class="hljs-meta-string">'/users'</span>
+})</span>
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>{
+
+  <span class="hljs-meta">@Id()</span> <span class="hljs-comment">// define the resource id</span>
+  <span class="hljs-keyword">public</span> id: number;
+
+  <span class="hljs-meta">@Column()</span> <span class="hljs-comment">// define a column</span>
+  <span class="hljs-keyword">public</span> firstName: string;
+
+  <span class="hljs-meta">@Column()</span>
+  <span class="hljs-keyword">public</span> lastName: string;
+}
+            </code>
+        </pre>
+
+        <h3 id="repository">Repository</h3>
+
+        <p>
+            Right, now you have your resources. NgxRepository will generate all repositories on demand. You just have to
+            inject it in your services using the
+            <code>@InjectRepository()</code> decorator. You need to specify in the decorator context the type of your
+            resource and the type of
+            your repository(<code>HttpRepository</code>, <code>FirestoreRepository</code>...).
+        </p>
+
+        <p>
+            The generic types of the generated repository type are the type of the resource and the type of the resource
+            id.
+        </p>
+
+        <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { InjectRepository, Page } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+<span class="hljs-keyword">import</span> { HttpRepository } from <span class="hljs-string">'@paddls/ngx-http-repository'</span>
+
+<span class="hljs-meta">@Injectable()</span>
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BookService</span> </span>{
+
+    <span class="hljs-comment">// repository is build with Http driver for User resource</span>
+    <span class="hljs-meta">@InjectRepository({resourceType: () =&gt; Book, repository: () =&gt; HttpRepository})</span>
+    <span class="hljs-keyword">private</span> readonly bookRepository: HttpRepository&lt;Book, number&gt;;
+
+    <span class="hljs-keyword">public</span> findAll(): Observable&lt;Page&lt;Book&gt;&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.bookRepository.findAll();
+    }
+
+    <span class="hljs-comment">// returns the id of created resource</span>
+    <span class="hljs-keyword">public</span> create(book: Book): Observable&lt;number&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.bookRepository.create(book);
+    }
+
+    <span class="hljs-comment">// observable completes when update is effective</span>
+    <span class="hljs-keyword">public</span> update(book: Book): Observable&lt;void&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.bookRepository.update(book);
+    }
+}
+            </code>
+        </pre>
+
+        <p>
+            Each repository of a resource made from <code>FirestoreDriver</code> or <code>HttpDriver</code> are
+            singleton
+            services stored in Angular
+            Injector, so don&#39;t worry about injecting them on several services.
+        </p>
+
+        <p>
+            Last but not least : NgxRepository automatically serializes and deserializes your resources between JSON and
+            strongly
+            typed TypeScript classes. Note that only fields with
+            <code>@Id()</code> or <code>@Column()</code> decorators are marked for serialization.
+        </p>
+    </article>
+</section>
+
+</body>
+</html>

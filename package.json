@@ -8,8 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/witty-service/witty-web-site.git"
+    "url": "git+ssh://git@github.com:paddls/docs.git"
   },
+  "homepage": "https://paddls.github.io/docs/",
   "author": "Oscar GUERIN",
   "license": "MIT",
   "devDependencies": {

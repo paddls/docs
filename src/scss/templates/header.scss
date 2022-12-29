@@ -1,11 +1,12 @@
 @import '../utilities/variable', '../utilities/fonts';
-/*HEADER-----------------------------*/
 
 nav {
-  padding: 0px;
+  padding: 0;
 }
 
 header {
+  height: 90px;
+
   @apply flex flex-col justify-center items-center px-0 lg:px-24;
   background-color: $background-blue;
 
@@ -35,6 +36,5 @@ header {
 
 
 .desktop-version {
-  max-width: 6.688rem;
-  max-height: 2rem;
+  max-height: 2.5rem;
 }

@@ -1,0 +1,26 @@
+<header>
+    <nav class="container-header">
+        <div class="content-logo-header">
+            <a href="index.html">
+                <img class="desktop-version"
+                     src="img/paddls.png"
+                     alt="paddls logo">
+            </a>
+        </div>
+        <div class="content-pages-header">
+            <button aria-label="navbar display"
+                    onclick="onClickMenu()">
+                <i id="icon"
+                   class="fa fa-bars"></i>
+            </button>
+            <ol id="header-links">
+                <li><a class="links-header@@if (context.active === 'repository') {active}"
+                       href="./repository-start.html">Repository</a></li>
+                <li><a class="links-header@@if (context.active === 'form') {active}"
+                       href="./form.html">Form</a></li>
+                <li><a class="links-header"
+                       href="./serializer.html">Serializer</a></li>
+            </ol>
+        </div>
+    </nav>
+</header>

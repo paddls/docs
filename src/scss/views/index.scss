@@ -1,24 +1,5 @@
 @import '../utilities/typography', '../utilities/variable', '../templates/footer', '../templates/header', '../utilities/buttons';
 
-@media  screen and (max-width: 424px) {
-  html{
-    font-size: 8px;
-  }
-}
-
-@media screen and (min-width: 425px) and (max-width: 767px){
-  html{
-    font-size: 10px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  html{
-    font-size: 16px;
-  }
-}
-
-/* Homepage */
 body {
   @apply m-0;
 }
@@ -47,9 +28,9 @@ body {
       }
     }
 
-  [name='logo'] {
-    justify-self: center;
-  }
+    [name='logo'] {
+      justify-self: center;
+    }
   }
 
   .logomark {
@@ -79,7 +60,7 @@ body {
   .container-features1 {
     @apply grid grid-cols-1 lg:grid-cols-2 flex-row items-center self-center px-8 gap-12;
 
-    .content-features1{
+    .content-features1 {
       @apply flex flex-col lg:items-start gap-12;
 
       .content-heart {
@@ -126,7 +107,6 @@ body {
     }
   }
 }
-
 
 
 /*-------------------------------------*/
@@ -292,7 +272,7 @@ body {
         .features-text {
           @apply flex flex-col gap-2 items-center text-center lg:items-start lg:text-left;
 
-          .features-font-title  {
+          .features-font-title {
             font-family: "Inter-Medium";
             font-style: normal;
             font-weight: 500;
@@ -301,7 +281,7 @@ body {
             color: $color-black;
           }
 
-          .features-font-description  {
+          .features-font-description {
             font-family: "Inter-Normal";
             font-style: normal;
             font-weight: 400;
@@ -328,10 +308,10 @@ body {
 /*-------------------------------------------------*/
 /* Quote section */
 
-.section-background-blue{
+.section-background-blue {
   @apply relative;
 
-  #citation-logo-form{
+  #citation-logo-form {
     @apply hidden lg:flex absolute left-24;
     width: 89px;
     bottom: 176px;
@@ -400,7 +380,7 @@ body {
 /*---------------------------------------*/
 /* CTA section */
 .section-cta {
-  @apply  grid grid-cols-1 lg:grid-cols-2 flex flex-row items-center py-24;
+  @apply grid grid-cols-1 lg:grid-cols-2 flex flex-row items-center py-24;
   background: white;
 
   .content-left {

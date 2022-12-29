@@ -1,15 +1,13 @@
 @import './typography', './variable';
 
-/* BUTTONS */
-
 @mixin btn($background, $border-color, $color) {
 
   box-sizing: border-box;
 
   @apply flex flex-row justify-center items-center px-5 py-3 gap-2 text-center h-full;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
-  font-family: 'Inter-Medium';
+  font-family: 'Inter-Medium', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 1rem;
@@ -22,7 +20,7 @@
   color: $color;
 }
 
-@mixin hoverActiveBtn($hover, $active) {
+@mixin hover-active-btn($hover, $active) {
   &:hover {
     background: $hover;
     border-color: $hover;
@@ -45,17 +43,12 @@ $colors: (
 @each $name, $color in $colors {
   .btn-#{$name}{
     @include btn(nth($color, 1), nth($color, 2), nth($color, 3));
-    @include hoverActiveBtn(nth($color, 4),  nth($color, 5))
+    @include hover-active-btn(nth($color, 4),  nth($color, 5))
   }
 }
 
-
-
-
-/* LINKS HEADER FOOTER */
-
-@mixin linksHeaderFooter($color, $active) {
-  font-family: 'Inter-Medium';
+@mixin header-footer-links($color, $active) {
+  font-family: 'Inter-Medium', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 1em;
@@ -75,7 +68,7 @@ $colors-header-footer: (
 
 @each $name, $color in $colors-header-footer {
   .links-#{$name} {
-    @include linksHeaderFooter(nth($color, 1), nth($color, 2));
+    @include header-footer-links(nth($color, 1), nth($color, 2));
     @apply hover:text-color-pink active:text-color-pink;
   }
 }
