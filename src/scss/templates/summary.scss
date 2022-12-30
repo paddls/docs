@@ -1,4 +1,7 @@
+@import 'src/scss/base/variable';
+
 nav.summary {
+  background: $background-gray;
 
   ul {
     padding: 0.5rem;
@@ -6,5 +9,26 @@ nav.summary {
     li {
       padding: 0.25rem 0;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .summary-container {
+    display: none;
+  }
+}
+
+.floating-summary-container {
+  display: none;
+  position: absolute;
+  top: $header-height;
+  left: 0;
+  width: $summary-width;
+  height: calc(100% - $header-height);
+  z-index: 2;
+  overflow-y: scroll;
+
+  &.opened {
+    display: block;
   }
 }

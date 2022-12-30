@@ -1,20 +1,26 @@
-@import './variable', './fonts';
+@import 'src/scss/base/variable';
 
 h1 {
   font-family: 'Chillax-Variable', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 4rem;
-  line-height: 4.5rem;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
   color: white;
+}
+
+.hero h1 {
+  color: black;
+  font-size: 3.5rem;
+  line-height: 3.5rem;
 }
 
 h2 {
   font-family: 'Inter-Medium', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 3rem;
-  line-height: 2.75rem;
+  font-size: 2.5rem;
+  line-height: 2.25rem;
   color: $color-black;
   margin-bottom: 2rem;
 }
@@ -52,13 +58,7 @@ p {
   margin-bottom: 0.5rem;
 }
 
-@media screen and (max-width: 424px) {
-  section.content {
-    font-size: 0.5rem;
-  }
-}
-
-@media screen and (min-width: 425px) and (max-width: 767px) {
+@media screen and (max-width: 767px) {
   section.content {
     font-size: 0.75rem;
   }
@@ -67,39 +67,5 @@ p {
 @media screen and (min-width: 768px) {
   section.content {
     font-size: 0.875rem;
-  }
-}
-
-section.content {
-  display: flex;
-
-  nav.summary {
-    position: absolute;
-    width: 250px;
-    top: 90px;
-    height: calc(100% - 90px);
-    overflow-y: scroll;
-
-    ul {
-      font-weight: 700;
-
-      ul {
-        font-weight: 300;
-
-        ul {
-          font-weight: 200;
-          font-size: 0.75rem;
-        }
-      }
-    }
-  }
-
-  article {
-    position: absolute;
-    top: 90px;
-    left: 250px;
-    height: calc(100% - 90px);
-    overflow-y: scroll;
-    padding: 2rem;
   }
 }

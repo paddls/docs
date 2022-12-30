@@ -1,26 +1,33 @@
 <header>
     <nav class="container-header">
         <div class="content-logo-header">
-            <a href="index.html">
+            <em class="fa fa-bars fa-lg"
+                onclick="toggleSummary()"></em>
+            <a class="logo-link"
+               href="index.html">
                 <img class="desktop-version"
                      src="img/paddls.png"
                      alt="paddls logo">
+                <h1>Paddls</h1>
             </a>
         </div>
         <div class="content-pages-header">
-            <button aria-label="navbar display"
-                    onclick="onClickMenu()">
-                <i id="icon"
-                   class="fa fa-bars"></i>
-            </button>
-            <ol id="header-links">
+            <ul id="header-links">
                 <li><a class="links-header@@if (context.active === 'repository') {active}"
                        href="./repository-start.html">Repository</a></li>
                 <li><a class="links-header@@if (context.active === 'form') {active}"
                        href="./form.html">Form</a></li>
                 <li><a class="links-header"
                        href="./serializer.html">Serializer</a></li>
-            </ol>
+                <li><a class="links-header"
+                       href="./other-start.html">Other</a></li>
+            </ul>
         </div>
     </nav>
 </header>
+
+<template id="toc-template">
+    <li class="toc-element">
+        <a class="toc-link"></a>
+    </li>
+</template>

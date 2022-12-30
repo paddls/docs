@@ -1,0 +1,59 @@
+@import 'src/scss/base/variable';
+
+pre {
+  background: $color-code-background;
+  color: white;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  overflow: scroll;
+
+  code {
+    .hljs-keyword {
+      color: $color-code-keyword;
+    }
+
+    .hljs-string, .hljs-meta-string {
+      color: $color-code-string;
+    }
+
+    .hljs-comment {
+      color: $color-code-comment;
+    }
+
+    .hljs-meta {
+      color: $color-code-meta;
+    }
+
+    .hljs-title {
+      color: $color-code-title;
+    }
+  }
+}
+
+section.hero {
+  div.code-container {
+    margin-top: 2rem;
+    width: fit-content;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 1rem;
+    background: $background-gray;
+    border: 1px $border-button-gray solid;
+    border-radius: 0.5rem;
+
+    em {
+      cursor: pointer;
+      padding-left: 1rem;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  pre {
+    font-size: 0.625rem !important;
+  }
+}

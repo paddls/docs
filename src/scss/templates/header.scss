@@ -1,4 +1,4 @@
-@import '../utilities/variable', '../utilities/fonts';
+@import 'src/scss/base/variable', 'src/scss/base/fonts';
 
 nav {
   padding: 0;
@@ -7,34 +7,52 @@ nav {
 header {
   height: 90px;
 
-  @apply flex flex-col justify-center items-center px-0 lg:px-24;
+  em {
+    color: white;
+    cursor: pointer;
+  }
+
+  @apply flex flex-col justify-center items-center px-0;
   background-color: $background-blue;
 
   .container-header {
-    @apply flex flex-row justify-between items-start py-6 px-8 gap-7 w-full;
+    @apply flex flex-row justify-between items-center py-6 px-8 gap-7 w-full;
   }
 
   .content-logo-header {
     @apply flex flex-row gap-10 items-center;
+
+    .logo-link {
+      @apply flex items-center;
+
+      h1 {
+        margin-left: 1rem;
+      }
+    }
   }
 
   .content-pages-header {
-    @apply flex flex-row items-start sm:items-center gap-4 relative;
-
-    i {
-      @apply flex sm:hidden cursor-pointer absolute;
-      color: white;
-      transition: 0.6s ease-in-out;
-    }
+    @apply flex flex-row items-start gap-4 relative;
 
     #header-links {
-      @apply flex-col sm:flex sm:flex-row items-center gap-8 list-none;
+      @apply flex items-center gap-8 list-none;
       transition: 0.2s ease-in-out;
     }
   }
 }
 
-
 .desktop-version {
   max-height: 2.5rem;
+}
+
+@media screen and (min-width: 992px) {
+  em.fa-bars {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  header h1 {
+    display: none;
+  }
 }

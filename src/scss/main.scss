@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/fontawesome";
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/brands";
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/regular";
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/solid";
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/v4-shims";
+
+@import 'src/scss/base/variable';
+@import 'src/scss/base/fonts';
+@import 'src/scss/base/typography';
+
+@import 'templates/layout';
+
+@import 'templates/buttons';
+@import 'templates/code';
+@import 'templates/footer';
+@import 'templates/header';
+@import 'templates/summary';
+@import 'templates/toc';

@@ -1,10 +1,30 @@
 <html lang="en">
 @@include('../templates/head.html', {
-  'title' : 'Paddls',
-  'description' : 'Home'
+'title' : 'Paddls',
+'description' : 'Home'
 })
 <body>
-  @@include('../templates/header.html')
-  Hello world
+@@include('../templates/header.html')
+
+<section class="hero">
+    <h1>Stop paddling, use <br>@paddls</h1>
+
+    <div class="code-container">
+        <code>
+            ng add @paddls/schematics
+        </code>
+        <em class="fa-regular fa-clone fa-lg"></em>
+
+    </div>
+</section>
+<section class="description">
+    <p>
+        Build your <strong>Angular</strong> and <strong>Typescript</strong> apps has never been easier.
+        <code>@paddls</code> librairies dig deep into the
+        power of Typescript using the full potential of strongly typed objects and decorators.
+    </p>
+</section>
 </body>
+
+<script src="scripts.js"></script>
 </html>

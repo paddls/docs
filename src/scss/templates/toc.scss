@@ -1,0 +1,57 @@
+@import 'src/scss/base/variable';
+
+nav.toc {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  width: 200px;
+
+  ul {
+    position: relative;
+    padding: 1rem;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: #efefef;
+    }
+
+    li {
+      position: relative;
+
+      &:before {
+        border-radius: 50%;
+        transform: translateY(-50%);
+        content: "";
+        background: #fdfdfd;
+        border: 2px solid #efefef;
+        left: -1.175rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        top: 0.95rem;
+        display: inline-block;
+        position: absolute;
+      }
+
+      &.active {
+        color: $color-pink;
+
+        &:before {
+          border-color: $color-pink;
+        }
+      }
+
+      padding: 0.25rem 0;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  nav.toc {
+    display: none;
+  }
+}
