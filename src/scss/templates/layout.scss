@@ -33,7 +33,7 @@ section.hero {
     opacity: 0.5;
     background-image: url('img/paddls.png');
     background-repeat: no-repeat;
-    background-position: 130%;
+    background-position: right -10%;
   }
 }
 
@@ -72,7 +72,7 @@ section.content {
     }
   }
 
-  article {
+  article:not(.library-card) {
     position: absolute;
     top: $header-height;
     left: var(--summary-width);
@@ -116,8 +116,46 @@ blockquote {
   }
 }
 
+h2.index {
+  margin-top: 4rem;
+  margin-left: 3rem;
+}
+
+.our-libraries {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  margin: 1rem 3rem;
+  gap: 1.5rem;
+
+  a {
+    width: 25%;
+    height: 240px;
+  }
+
+  .library-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: $background-gray;
+    border: 1px $border-button-gray solid;
+    border-radius: 0.5rem;
+    height: 100%;
+
+    h4 {
+      padding-top: 0.5rem;
+    }
+
+    p {
+      font-weight: lighter;
+    }
+  }
+}
+
 @media screen and (max-width: 992px) {
-  article {
+  article:not(.library-card) {
     width: 100vw !important;
   }
 
@@ -127,7 +165,7 @@ blockquote {
 }
 
 @media screen and (max-width: 576px) {
-  article {
+  article:not(.library-card) {
     padding: 1rem !important;
   }
 }

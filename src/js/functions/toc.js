@@ -2,7 +2,7 @@ function elementViewportTop(el) {
   return el.getBoundingClientRect().top;
 }
 
-function init() {
+export function init() {
   const tocListEl = document.querySelector('ul.toc-list');
   const template = document.querySelector('#toc-template');
 
@@ -12,24 +12,23 @@ function init() {
     clone.querySelector('a.toc-link').setAttribute('href', `#${el.id}`);
     clone.querySelector('a.toc-link').textContent = el.textContent;
 
-    tocListEl.appendChild(clone);
+    tocListEl?.appendChild(clone);
   });
 }
 
-function onArticleScroll() {
+export function onArticleScroll() {
   const elements = document.querySelectorAll('h3');
   let done = false;
 
   elements.forEach(el => {
     const tocEl = document.querySelector(`#toc-${el.id}`);
-    tocEl.classList.remove('active');
+    tocEl?.classList.remove('active');
 
     if (!done && elementViewportTop(el) > 0) {
-      tocEl.classList.add('active');
+      tocEl?.classList.add('active');
       done = true;
     }
   });
 }
 
-init();
-onArticleScroll();
+

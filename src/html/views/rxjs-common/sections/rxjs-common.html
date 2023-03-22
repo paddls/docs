@@ -1,0 +1,565 @@
+<html lang="en">
+@@include('../../../templates/head.html', {
+'title' : '@paddls/rxjs-common',
+'description' : 'Repository'
+})
+
+<body>
+@@include('../../../templates/header.html')
+
+<section class="content">
+    <div class="summary-container">
+        @@include('../../../templates/summary/rxjs-common.html')
+    </div>
+
+    <div class="floating-summary-container">
+        @@include('../../../templates/summary/rxjs-common.html')
+    </div>
+
+    <article onscroll="onArticleScroll()">
+        <div class="content-container">
+            <h2 id="how-to-install">How to install</h2>
+            <pre>
+                <code>
+<span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> <span class="hljs-selector-tag">--save</span> @<span class="hljs-keyword">paddls</span>/<span class="hljs-keyword">rxjs</span>-<span class="hljs-keyword">common</span>
+                </code>
+            </pre>
+            <p><strong><code>RxJS</code> compatibility table :</strong></p>
+            <table>
+                <thead>
+                <tr>
+                    <th><code>RxJS</code></th>
+                    <th><code>rxjs-common</code></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>7.0.0</code> and above</td>
+                    <td><code>2.0.0</code> and above</td>
+                </tr>
+                <tr>
+                    <td><code>6.5.4</code> and above</td>
+                    <td><code>1.0.0</code> and above</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2 id="most-used-operators">Most used operators</h2>
+            <h3 id="log">log()</h3>
+            <p>Logs observable content with console API.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'log-ex',
+            'name' : 'log.ts'
+            })
+            <pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { log } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>]).pipe(
+        log()
+).subscribe();
+
+<span class="hljs-comment">// output: 'a', 'b'</span>
+</code></pre>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'log-param-ex',
+            'name' : 'log-param.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { log } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>]).pipe(
+        log(<span class="hljs-string">'Hello World !'</span>)
+).subscribe();
+
+// <span class="hljs-name">output</span>: <span class="hljs-string">'Hello World !'</span>, <span class="hljs-string">'a'</span>, <span class="hljs-string">'Hello World !'</span>, <span class="hljs-string">'b'</span>
+</code>
+            </pre>
+
+            <h3 id="softcache">softCache()</h3>
+            <p>Creates a cache destroyed when there is no more active subscription.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'soft-cache-ex',
+            'name' : 'soft-cache.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { log, softCache } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">const</span> buffer$ = <span class="hljs-keyword">from</span>(<span class="hljs-string">'a'</span>).pipe(
+        log(),
+        softCache()
+)
+
+buffer$.subscribe().unsubscribe(); <span class="hljs-comment">// should display 'a' cause no active subscription</span>
+buffer$.subscribe(); <span class="hljs-comment">// should display 'a' again cause no active subscription (unsubscribed previously)</span>
+buffer$.subscribe().unsubscribe(); <span class="hljs-comment">// should display nothing cause previous subscription still active</span>
+</code>
+            </pre>
+
+            <h3 id="hardcache">hardCache()</h3>
+            <p>Creates a cache between buffer and subscriptions. Cache is not destroyed when there is no more active
+                subscription.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'hard-cache-ex',
+            'name' : 'hard-cache.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { log, hardCache } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">const</span> buffer$ = <span class="hljs-keyword">from</span>(<span class="hljs-string">'a'</span>).pipe(
+        log(),
+        hardCache()
+)
+
+buffer$.subscribe().unsubscribe(); <span class="hljs-comment">// should display 'a' cause no active subscription</span>
+buffer$.subscribe(); <span class="hljs-comment">// should display nothing although the previous unsubscribe call</span>
+</code>
+            </pre>
+
+            <h3 id="refreshon">refreshOn()</h3>
+            <p>Emits or re-emits source&#39;s value at each trigger observable emission.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'refresh-on-ex',
+            'name' : 'refresh-on.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span>, interval } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs"</span>;
+<span class="hljs-keyword">import</span> { refreshOn } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">const</span> source$ = <span class="hljs-keyword">of</span>(<span class="hljs-number">1</span>);
+<span class="hljs-keyword">const</span> triggerOne$ = <span class="hljs-keyword">of</span>(<span class="hljs-string">'a'</span>);
+<span class="hljs-keyword">const</span> triggerTwo$ = interval(<span class="hljs-number">1000</span>);
+
+dataSource$.pipe(
+        refreshOn(triggerOne$, triggerTwo$)
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: 1, 1, ... 1 every seconds</span>
+</code>
+            </pre>
+
+            <h2 id="array-operators">Array operators</h2>
+
+            <h3 id="arrayfilter">arrayFilter()</h3>
+            <p>Returns the elements of source&#39;s array that meet the condition specified in a callback function.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'array-filter-ex',
+            'name' : 'array-filter.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { arrayFilter } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">of</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]).pipe(
+        arrayFilter(<span class="hljs-function">(<span class="hljs-params">input: number</span>) =&gt;</span> input % <span class="hljs-number">2</span> === <span class="hljs-number">0</span>)
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: [2, 4]</span>
+</code>
+            </pre>
+
+            <h3 id="arrayfind">arrayFind()</h3>
+            <p>Returns the single element of source&#39;s array that meet the condition specified in a callback
+                function.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'array-find-ex',
+            'name' : 'array-find.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { arrayFind } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">of</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]).pipe(
+        arrayFind(<span class="hljs-function">(<span class="hljs-params">input: number</span>) =&gt;</span> input &gt; <span class="hljs-number">1</span>)
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: 2</span>
+</code>
+            </pre>
+
+            <h3 id="arraymap">arrayMap()</h3>
+            <p>Calls a defined callback function on each element of source&#39;s array, and returns an array that
+                contains the
+                results.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'array-map-ex',
+            'name' : 'array-map.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { arrayMap } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">of</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]).pipe(
+        arrayMap(<span class="hljs-function">(<span class="hljs-params">input: number</span>) =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">${ input }</span>`</span>)
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: ['1', '2', '3']</span>
+</code>
+            </pre>
+
+            <h3 id="other-array-operators">Other array operators</h3>
+            <ul>
+                <li><code>arrayEvery</code></li>
+                <li><code>arraySome</code></li>
+                <li><code>arraySort</code></li>
+            </ul>
+            <p>Each of these operators follow the same principle and have the same signature as corresponding ES5
+                methods.</p>
+
+            <h2 id="filtering-operators">Filtering operators</h2>
+
+            <h3 id="ifempty">ifEmpty()</h3>
+
+            <p>Returns default observable when parent return is empty.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-empty-ex',
+            'name' : 'if-empty.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { EMPTY, <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifEmpty } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+EMPTY.pipe(
+        ifEmpty(<span class="hljs-string">'test'</span>)
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-keyword">of</span>(<span class="hljs-string">'test'</span>).pipe(
+        ifEmpty(<span class="hljs-string">'Is empty'</span>)
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+
+<span class="hljs-comment">// output: 'test'</span>
+</code>
+            </pre>
+
+            <h3 id="iffalsy">ifFalsy()</h3>
+            <p>Filters source where value is null, undefined, &#39;&#39;, 0.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-falsy-ex',
+            'name' : 'if-falsy.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifFalsy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]).pipe(
+        ifFalsy()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output:  0</span>
+</code></pre>
+
+            <h3 id="ifnotnull">ifNotNull()</h3>
+            <p>Filters items emitted by the source Observable by only emitting non-null value.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-not-null-ex',
+            'name' : 'if-not-null.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifNotNull } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">''</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'2'</span>]).pipe(
+        ifNotNull()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output: 1, 0, '2'</span>
+</code>
+            </pre>
+
+            <h3 id="ifnotnulls">ifNotNulls()</h3>
+            <p>Filters items emitted by the source array by only emitting when each item satisfies the != null
+                condition.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-not-nulls-ex',
+            'name' : 'if-not-nulls.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { combineLatest, <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifNotNulls } <span class="hljs-keyword">from</span> <span class="hljs-string">'./if-not-nulls.operator'</span>;
+
+combineLatest([
+  <span class="hljs-keyword">from</span>([<span class="hljs-literal">null</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>]),
+  <span class="hljs-keyword">from</span>([<span class="hljs-number">3</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-number">4</span>])
+]).pipe(
+        ifNotNulls()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output: [1, 3], [2, 4]</span>
+</code>
+            </pre>
+
+            <h3 id="ifnull">ifNull()</h3>
+            <p>Filters items emitted by the source Observable by only emitting null value.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-null-ex',
+            'name' : 'if-null.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifNull } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, <span class="hljs-string">''</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'2'</span>]).pipe(
+        ifNull()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output: null, '', undefined, false</span>
+</code>
+            </pre>
+
+            <h3 id="ifnulls">ifNulls()</h3>
+            <p>Filters items emitted by the source array by only emitting when each item satisfies the == null
+                condition.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-nulls-ex',
+            'name' : 'if-nulls.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { combineLatest, <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifNulls } <span class="hljs-keyword">from</span> <span class="hljs-string">'./if-nulls.operator'</span>;
+
+combineLatest([
+  <span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-literal">null</span>]),
+  <span class="hljs-keyword">from</span>([<span class="hljs-literal">undefined</span>, <span class="hljs-number">2</span>])
+]).pipe(
+        ifNulls()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output: [null, undefined], [undefined, undefined]</span>
+</code>
+            </pre>
+
+            <h3 id="iftruthy">ifTruthy()</h3>
+            <p>Filters source where value is not null, undefined, &#39;&#39;, 0.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'if-truthy-ex',
+            'name' : 'if-truthy.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { ifTruthy } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]).pipe(
+        ifTruthy()
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output:  1</span>
+</code>
+            </pre>
+
+            <h3 id="countsubscription">countSubscription()</h3>
+            <p>Logs number of active subscriptions.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'count-subscription-ex',
+            'name' : 'count-subscription.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { countSubscription } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>]).pipe(
+  countSubscription()
+).subscribe();
+
+<span class="hljs-comment">// outputs number of active subscriptions through time</span>
+</code>
+            </pre>
+
+            <h3 id="joinarray">joinArray()</h3>
+            <p>Combines the latest values of source and each input array into a single array.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'join-array-ex',
+            'name' : 'join-array.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+import { from } from <span class="hljs-string">'rxjs'</span>;
+import { joinArray } from <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+from(<span class="hljs-string">[[1], [3]]</span>).pipe(
+  joinArray(from(<span class="hljs-string">[[], [2], []]</span>)),
+).subscribe(console.log)
+
+// output:  [<span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">3</span>]
+</code>
+            </pre>
+
+            <h2 id="other-operators">Other operators</h2>
+
+            <h3 id="onany">onAny()</h3>
+
+            <p>Triggers callback on any event passing through (EMPTY observable, error or value).</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'on-any-ex',
+            'name' : 'on-any.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { EMPTY } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { onAny } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+EMPTY.pipe(
+  onAny(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Hello'</span>))
+).subscribe()
+
+<span class="hljs-comment">// output: 'Hello'</span>
+</code>
+            </pre>
+
+            <h3 id="onerror">onError()</h3>
+            <p>Handles errors of specified type.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'on-error-ex',
+            'name' : 'on-error.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span>, timer } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { tap } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs/operators'</span>;
+<span class="hljs-keyword">import</span> { onError } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyCustomError</span> </span>{
+}
+
+timer(<span class="hljs-number">1000</span>).pipe(
+        tap(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> MyCustomError()),
+        onError(MyCustomError, (err: MyCustomError) =&gt; {
+          <span class="hljs-keyword">return</span> <span class="hljs-keyword">of</span>(<span class="hljs-string">'Hello'</span>)
+        })
+).subscribe()
+
+<span class="hljs-comment">// output: 'Hello'</span>
+</code>
+            </pre>
+
+            <h3 id="poll">poll()</h3>
+            <p>Emits source value at every interval.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'poll-ex',
+            'name' : 'poll.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs"</span>;
+<span class="hljs-keyword">import</span> { take } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs/operators"</span>;
+<span class="hljs-keyword">import</span> { poll } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">const</span> dataSource$ = <span class="hljs-keyword">of</span>(<span class="hljs-number">1</span>);
+
+dataSource$.pipe(
+  poll(<span class="hljs-number">500</span>, <span class="hljs-literal">true</span>),
+  take(<span class="hljs-number">4</span>),
+).subscribe(<span class="hljs-built_in">console</span>.log)
+
+<span class="hljs-comment">// output: 1, 1, 1, 1</span>
+</code>
+            </pre>
+
+            <h3 id="sneakythrow">sneakyThrow()</h3>
+            <p>Catches observable error and returns EMPTY.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'sneaky-throw-ex',
+            'name' : 'sneaky-throw.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">of</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs"</span>;
+<span class="hljs-keyword">import</span> { tap } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs/operators"</span>;
+<span class="hljs-keyword">import</span> { sneakyThrow } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+throwError(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'An error'</span>)).pipe(
+  sneakyThrow()
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: EMPTY</span>
+</code>
+            </pre>
+
+            <h3 id="tohotarray">toHotArray()</h3>
+            <p>Scans source values into an array.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'to-hot-array-ex',
+            'name' : 'to-hot-array.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"rxjs"</span>;
+<span class="hljs-keyword">import</span> { toHotArray } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]).pipe(
+  toHotArray()
+).subscribe(<span class="hljs-built_in">console</span>.log);
+
+<span class="hljs-comment">// output: [1], [1, 2], [1, 2, 3]</span>
+</code>
+            </pre>
+
+            <h3 id="wif">wif()</h3>
+            <p>Returns either an observable or another depending on the condition.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'wif-ex',
+            'name' : 'wif.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">from</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'rxjs'</span>;
+<span class="hljs-keyword">import</span> { wif } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/rxjs-common'</span>;
+
+<span class="hljs-keyword">from</span>([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]).pipe(
+  wif(
+    <span class="hljs-function"><span class="hljs-params">(value: number)</span> =&gt;</span> value &gt; <span class="hljs-number">2</span>,
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-string">'Greater than'</span>,
+    <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-string">'Less than or equal'</span>
+  )
+).subscribe(console.log)
+
+// <span class="hljs-name">output</span>:  <span class="hljs-string">'Less than or equal'</span>, <span class="hljs-string">'Less than or equal'</span>, <span class="hljs-string">'Greater than'</span>
+</code></pre>
+        </div>
+    </article>
+</section>
+
+</body>
+
+<script src="scripts.js"></script>
+</html>

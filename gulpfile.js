@@ -7,13 +7,18 @@ const browserSync = require('browser-sync').create();
 const sass = require('gulp-sass')(require('sass'));
 const postcss = require('gulp-postcss');
 const concat = require('gulp-concat');
-const uglify = require('gulp-terser');
 const imagemin = require('gulp-imagemin');
-const cleanCSS = require('gulp-clean-css');
-const purgecss = require('gulp-purgecss');
-const autoprefixer = require('gulp-autoprefixer');
 const logSymbols = require('log-symbols');
 const fileinclude = require('gulp-file-include');
+
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const rollup = require('@rollup/stream');
+const babel = require('@rollup/plugin-babel');
+const commonjs = require('@rollup/plugin-commonjs');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+
+let cache;
 
 function livePreviewTask(done) {
   browserSync.init({
@@ -73,14 +78,22 @@ function stylesTask() {
 }
 
 function scriptsTask() {
-  return src([
-    `${options.paths.src.js}/libs/**/*.js`,
-    `${options.paths.src.js}/**/*.js`,
-    `!${options.paths.src.js}/**/external/*`
-  ])
-    .pipe(concat({path: 'scripts.js'}))
-    .pipe(uglify({mangle: {toplevel: true, keep_fnames: true}}))
+  return rollup({
+    input: `${options.paths.src.js}/main.js`,
+    plugins: [nodeResolve({browser: true}), commonjs(), babel({exclude: 'node_modules/**'})],
+    cache: cache,
+    output: {
+      name: 'scripts',
+      format: 'iife',
+      sourcemap: true
+    }
+  })
+    .on('bundle', function (bundle) {
+      cache = bundle;
+    })
+    .pipe(source('scripts.js'))
     .pipe(rename({dirname: ''}))
+    .pipe(buffer())
     .pipe(dest(options.paths.dist));
 }
 

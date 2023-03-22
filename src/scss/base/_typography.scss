@@ -1,5 +1,10 @@
 @import 'src/scss/base/variable';
 
+body {
+  color: $body-color;
+  font-family: 'Inter', ui-sans-serif, sans-serif;
+}
+
 h1 {
   font-family: 'Chillax-Variable', sans-serif;
   font-style: normal;
@@ -16,7 +21,7 @@ h1 {
 }
 
 h2 {
-  font-family: 'Inter-Medium', sans-serif;
+  font-family: 'Chillax-Variable', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 2.5rem;
@@ -26,7 +31,7 @@ h2 {
 }
 
 h3 {
-  font-family: 'Inter-Medium', sans-serif;
+  font-family: 'Chillax-Variable', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 1rem;
@@ -36,7 +41,7 @@ h3 {
 }
 
 h4 {
-  font-family: 'Inter-Normal', sans-serif;
+  font-family: 'Chillax-Variable', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.875rem;
@@ -46,7 +51,7 @@ h4 {
 }
 
 h5 {
-  font-family: 'Inter-SemiBold', sans-serif;
+  font-family: 'Chillax-Semibold', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 1rem;
@@ -59,13 +64,13 @@ p {
 }
 
 @media screen and (max-width: 767px) {
-  section.content {
+  section.content, section.description, section.our-libraries {
     font-size: 0.75rem;
   }
 }
 
 @media screen and (min-width: 768px) {
-  section.content {
+  section.content, section.description, section.our-libraries {
     font-size: 0.875rem;
   }
 }

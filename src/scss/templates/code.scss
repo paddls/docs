@@ -1,15 +1,40 @@
 @import 'src/scss/base/variable';
 
+code {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  background-color: #f0f2f3;
+  border-radius: 0.125rem;
+  padding: 2px 6px;
+}
+
+.code-header {
+  background: darken($color-code-background, 10%);
+  border-radius: 0.5rem 0.5rem 0 0;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0 0 0;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  em {
+    cursor: pointer;
+  }
+}
+
 pre {
   background: $color-code-background;
   color: white;
-  margin: 1rem 0;
+  margin: 0 0 1rem 0;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0 0 0.5rem 0.5rem;
   font-size: 0.75rem;
   overflow: scroll;
 
   code {
+    background: none;
+
     .hljs-keyword {
       color: $color-code-keyword;
     }
@@ -44,6 +69,10 @@ section.hero {
     background: $background-gray;
     border: 1px $border-button-gray solid;
     border-radius: 0.5rem;
+
+    code {
+      background: none;
+    }
 
     em {
       cursor: pointer;

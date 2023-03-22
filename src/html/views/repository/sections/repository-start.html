@@ -1,7 +1,7 @@
 <html lang="en">
 @@include('../../../templates/head.html', {
-'title' : 'Repository - Paddls',
-'description' : 'Repository'
+'title' : '@paddls/ngx-repository',
+'description' : 'RxJS Common'
 })
 
 <body>
@@ -45,6 +45,10 @@
                 resource path of the resource.
             </p>
 
+            @@include('../../../templates/code-header.html', {
+            'id' : 'user-model-ts',
+            'name' : 'user.model.ts'
+            })
             <pre>
                 <code class="lang-typescript">
 <span class="hljs-keyword">import</span> { FirestoreResource } <span class="hljs-keyword">from</span> <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
