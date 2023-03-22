@@ -80,7 +80,7 @@ function stylesTask() {
 function scriptsTask() {
   return rollup({
     input: `${options.paths.src.js}/main.js`,
-    plugins: [nodeResolve({browser: true}), commonjs(), babel({exclude: 'node_modules/**'})],
+    plugins: [nodeResolve({browser: true}), commonjs(), babel()],
     cache: cache,
     output: {
       name: 'scripts',
