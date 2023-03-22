@@ -74,7 +74,7 @@ function stylesTask() {
     .pipe(concat({path: 'style.css'}))
 
     .pipe(rename({dirname: ''}))
-    .pipe(dest(options.paths.dist));
+    .pipe(dest(options.paths.dist + '/styles'));
 }
 
 function scriptsTask() {
