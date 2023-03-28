@@ -35,36 +35,36 @@
 }
 
 $colors: (
-  'purple': ($color-purple-button, $color-purple-button, white, $color-pink, $color-pink),
-  'pink': ($color-pink, $color-pink, white, $color-purple-button, $color-purple-button),
-  'white': (white,white,$color-gray-button,$color-gray, $color-gray),
-  'white-bordered': (white,$border-button-gray,$color-gray-button,$color-gray, $color-gray)
+        'purple': ($color-purple-button, $color-purple-button, white, $color-pink, $color-pink),
+        'pink': ($color-pink, $color-pink, white, $color-purple-button, $color-purple-button),
+        'white': (white, white, $color-gray-button, $color-gray, $color-gray),
+        'white-bordered': (white, $border-button-gray, $color-gray-button, $color-gray, $color-gray)
 );
 
 @each $name, $color in $colors {
-  .btn-#{$name}{
+  .btn-#{$name} {
     @include btn(nth($color, 1), nth($color, 2), nth($color, 3));
-    @include hover-active-btn(nth($color, 4),  nth($color, 5))
+    @include hover-active-btn(nth($color, 4), nth($color, 5))
   }
 }
 
 @mixin header-footer-links($color, $active) {
-  font-family: 'Inter-Medium', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1em;
   line-height: 1.5em;
   transition: 0.3s;
   color: $color;
 
-  &.active{
+  &.active {
     color: $active;
   }
 }
 
 $colors-header-footer: (
-  'header': (white, $color-active-page-header),
-  'footer': ($color-gray, $color-active-page-footer)
+        'header': (white, $color-active-page-header),
+        'footer': ($color-gray, $color-active-page-footer)
 );
 
 @each $name, $color in $colors-header-footer {

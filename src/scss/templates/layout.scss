@@ -21,6 +21,7 @@ section.hero {
   height: 400px;
   position: relative;
   z-index: 1;
+  transition: all 0.2s ease-in-out;
 
   &:before {
     position: absolute;
@@ -59,15 +60,18 @@ section.content {
 
   nav.summary {
     ul {
-      font-weight: 700;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: $body-color;
+      font-size: 0.8rem;
+      font-family: 'Chillax-Bold', sans-serif;
 
       ul {
-        font-weight: 300;
-
-        ul {
-          font-weight: 200;
-          font-size: 0.75rem;
-        }
+        font-weight: normal;
+        font-family: 'Inter', sans-serif;
+        text-transform: none;
+        letter-spacing: normal;
       }
     }
   }
@@ -122,14 +126,13 @@ h2.index {
 }
 
 .our-libraries {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1.5rem;
   background: white;
   margin: 1rem 3rem;
-  gap: 1.5rem;
 
   a {
-    width: 25%;
     height: 240px;
   }
 
@@ -145,12 +148,19 @@ h2.index {
     height: 100%;
 
     h4 {
-      padding-top: 0.5rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: $body-color;
+      font-size: 1rem;
+      padding-top: 1rem;
     }
+  }
+}
 
-    p {
-      font-weight: lighter;
-    }
+@media screen and (max-width: 1200px) {
+  .our-libraries {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -165,7 +175,29 @@ h2.index {
 }
 
 @media screen and (max-width: 576px) {
+  section.hero {
+    padding: 2rem 1rem;
+    height: 200px;
+
+    h1 {
+      font-size: 2rem;
+      line-height: 2rem;
+    }
+  }
+
+  section.description {
+    padding: 2rem 1rem;
+
+    p {
+      width: 100%;
+    }
+  }
+
   article:not(.library-card) {
     padding: 1rem !important;
+  }
+
+  .our-libraries {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

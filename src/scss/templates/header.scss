@@ -7,7 +7,7 @@ nav {
 header {
   height: 90px;
 
-  em {
+  em.fa-bars {
     color: white;
     cursor: pointer;
   }
@@ -32,11 +32,22 @@ header {
   }
 
   .content-pages-header {
-    @apply flex flex-row items-start gap-4 relative;
+    @apply flex flex-row items-start gap-8 relative;
 
-    #header-links {
+    #header-links, #ext-header-links {
       @apply flex items-center gap-8 list-none;
       transition: 0.2s ease-in-out;
+    }
+
+    #header-links {
+      span.link-header-text {
+        padding-left: 0.5rem;
+      }
+    }
+
+    #ext-header-links {
+      padding-left: 2rem;
+      border-left: 1px solid white;
     }
   }
 }
@@ -47,6 +58,12 @@ header {
 
 @media screen and (min-width: 992px) {
   em.fa-bars {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .link-header-text {
     display: none !important;
   }
 }

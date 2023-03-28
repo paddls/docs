@@ -7,6 +7,7 @@
 @import "../../node_modules/@fortawesome/fontawesome-pro/scss/regular";
 @import "../../node_modules/@fortawesome/fontawesome-pro/scss/solid";
 @import "../../node_modules/@fortawesome/fontawesome-pro/scss/thin";
+@import "../../node_modules/@fortawesome/fontawesome-pro/scss/light";
 @import "../../node_modules/@fortawesome/fontawesome-pro/scss/v4-shims";
 
 @import 'src/scss/base/variable';
@@ -19,5 +20,6 @@
 @import 'templates/code';
 @import 'templates/footer';
 @import 'templates/header';
+@import 'templates/table';
 @import 'templates/summary';
 @import 'templates/toc';

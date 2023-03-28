@@ -1,0 +1,22 @@
+@import 'src/scss/base/variable';
+
+table {
+
+  td, th {
+    padding: 0.5rem 1rem;
+  }
+
+  th {
+    background-color: $color-light-purple;
+    border: 1px solid $color-light-purple;
+  }
+
+  td {
+    border-bottom: 1px solid $border-button-gray;
+    border-left: 1px solid $border-button-gray;
+    border-right: 1px solid $border-button-gray;
+    font-size: 0.85rem;
+  }
+
+  margin-bottom: 2rem;
+}
