@@ -3,18 +3,18 @@
 table {
 
   td, th {
-    padding: 0.5rem 1rem;
+    padding: 1rem 2rem;
   }
 
   th {
-    background-color: $color-light-purple;
-    border: 1px solid $color-light-purple;
+    background-color: transparentize($primary, 0.5);
+    border: 1px solid transparentize($primary, 0.5);
   }
 
   td {
-    border-bottom: 1px solid $border-button-gray;
-    border-left: 1px solid $border-button-gray;
-    border-right: 1px solid $border-button-gray;
+    border-bottom: 1px solid $border;
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
     font-size: 0.85rem;
   }
 

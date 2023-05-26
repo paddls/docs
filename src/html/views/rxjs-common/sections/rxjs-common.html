@@ -19,9 +19,14 @@
     <article onscroll="onArticleScroll()">
         <div class="content-container">
             <h2 id="how-to-install">How to install</h2>
-            <pre>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'npm-install',
+            'name' : 'npm'
+            })
+            <pre class="compact">
                 <code>
-<span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> <span class="hljs-selector-tag">--save</span> @<span class="hljs-keyword">paddls</span>/<span class="hljs-keyword">rxjs</span>-<span class="hljs-keyword">common</span>
+npm install --save @paddls/rxjs-common
                 </code>
             </pre>
             <h3><code>RxJS</code> compatibility table</h3>

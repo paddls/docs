@@ -26,7 +26,7 @@ h2 {
   font-weight: 600;
   font-size: 2.5rem;
   line-height: 2.25rem;
-  color: $color-black;
+  color: $dark;
   margin-bottom: 2rem;
   margin-top: 10rem;
 }
@@ -37,8 +37,8 @@ h3 {
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.5rem;
-  color: $color-blue;
-  margin-bottom: 1rem;
+  color: $info;
+  margin-bottom: 1.5rem;
 }
 
 h4 {
@@ -47,8 +47,8 @@ h4 {
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.5rem;
-  color: $color-blue;
-  margin-bottom: 0.5rem;
+  color: $info;
+  margin-bottom: 1rem;
 }
 
 h5 {
@@ -57,7 +57,7 @@ h5 {
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.5rem;
-  color: $color-pink;
+  color: $primary;
 }
 
 p {

@@ -28,7 +28,7 @@
             <h3 id="resource">Resource</h3>
 
             <p>
-                Start by creating a Typescript class for the type of resource you need to manipulate with NgxRepository.
+                Start by creating a Typescript class for the type of resource you need to manipulate with <code>ngx-repository</code>.
                 Once
                 this is
                 done, you can start annotating this class with the following decorators.
@@ -75,9 +75,13 @@
                 each
                 resource
                 field you want mapped with
-                NgxRepository.
+                <code>ngx-repository</code>.
             </p>
 
+            @@include('../../../templates/code-header.html', {
+            'id' : 'user-model-ts-2',
+            'name' : 'user.model.ts'
+            })
             <pre>
                 <code class="lang-typescript">
 <span class="hljs-keyword">import</span> { FirestoreResource } from <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
@@ -109,7 +113,8 @@ export <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
             <h3 id="repository">Repository</h3>
 
             <p>
-                Right, now you have your resources. NgxRepository will generate all repositories on demand. You just
+                Right, now you have your resources. <code>ngx-repository</code> will generate all repositories on
+                demand. You just
                 have to
                 inject it in your services using the
                 <code>@InjectRepository()</code> decorator. You need to specify in the decorator context the type of
@@ -124,6 +129,10 @@ export <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
                 id.
             </p>
 
+            @@include('../../../templates/code-header.html', {
+            'id' : 'book-service-ts',
+            'name' : 'book.service.ts'
+            })
             <pre>
                 <code class="lang-typescript">
 <span class="hljs-keyword">import</span> { InjectRepository, Page } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
@@ -163,7 +172,8 @@ export <span class="hljs-class"><span class="hljs-keyword">class</span> <span cl
             </blockquote>
 
             <p>
-                Last but not least : NgxRepository automatically serializes and deserializes your resources between JSON
+                Last but not least : <code>ngx-repository</code> automatically serializes and deserializes your
+                resources between JSON
                 and
                 strongly
                 typed TypeScript classes. Note that only fields with

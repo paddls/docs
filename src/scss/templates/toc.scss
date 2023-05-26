@@ -38,10 +38,10 @@ nav.toc {
       }
 
       &.active {
-        color: $color-pink;
+        color: $primary;
 
         &:before {
-          border-color: $color-pink;
+          border-color: $primary;
         }
       }
 

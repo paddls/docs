@@ -1,0 +1,417 @@
+<html lang="en">
+@@include('../../../templates/head.html', {
+'title' : '@paddls/ngx-repository',
+'description' : 'ngx-repository'
+})
+
+<body>
+@@include('../../../templates/header.html')
+
+<section class="content">
+    <div class="summary-container">
+        @@include('../../../templates/summary/repository.html')
+    </div>
+
+    <div class="floating-summary-container">
+        @@include('../../../templates/summary/repository.html')
+    </div>
+
+    <article onscroll="onArticleScroll()">
+        <div class="content-container">
+
+            <h2 id="overview">Overview</h2>
+
+            <h3 id="id-and-column-configuration">Id and Column</h3>
+
+            <p>You can add configuration to <code>@Id()</code> and <code>@Column()</code> decorators as follows.</p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'user-model-ts',
+            'name' : 'user.model.ts'
+            })
+            <pre>
+<code class="lang-typescript">
+<span class="hljs-keyword">import</span> { HttpResource } from <span
+        class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { Id, Column, DateConverter } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+
+<span class="hljs-meta">@HttpResource</span>({
+<span class="hljs-symbol">  path:</span> <span class="hljs-string">'/api/users'</span>
+})
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> {</span>
+
+<span class="hljs-meta">@Id</span>() <span class="hljs-comment">// define the resource id</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">id:</span> number;
+
+<span class="hljs-meta">@Column</span>() <span class="hljs-comment">// define a column</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">firstName:</span> string;
+
+<span class="hljs-meta">@Column</span>(<span class="hljs-string">'lastname'</span>)  <span class="hljs-comment">// define a column with special mapping</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">lastName:</span> string;
+
+<span class="hljs-meta">@Column</span>(() =&gt; Address) <span class="hljs-comment">// define a column with a child model</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">address:</span> Address;
+
+<span class="hljs-meta">@Column</span>({<span class="hljs-string">type:</span> () =&gt; Job, <span class="hljs-string">field:</span> <span
+        class="hljs-string">'job'</span>}) <span class="hljs-comment">// combine model and special mapping</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">myJob:</span> Job;
+
+<span class="hljs-meta">@Column</span>({<span class="hljs-string">field:</span> <span
+        class="hljs-string">'createdAt'</span>, <span class="hljs-string">customConverter:</span> () =&gt; DateConverter}) <span
+        class="hljs-comment">// use custom converter for special type</span>
+<span class="hljs-keyword">public</span> <span class="hljs-string">createdAt:</span> Date;
+
+}
+</code>
+            </pre>
+
+            <p>
+                As shown in the example above, each configuration field is optional : you can define any field you want
+                or not to have any configuration at all.
+            </p>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Available on <code>@Id()</code></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>field</code></td>
+                    <td>Field name in JSON</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>type</code></td>
+                    <td>Field type after deserialization : only fields with <code>@Id()</code> or <code>@Column()</code>
+                        decorator in type will be serialized
+                    </td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><code>readOnly</code></td>
+                    <td>Boolean to indicate to not send the value in json to the server</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>writeOnly</code></td>
+                    <td>Boolean to indicate to ignore the field in json</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>customConverter</code></td>
+                    <td>A converter to make a custom serialization/deserialization</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td><code>denormalizeNull</code></td>
+                    <td>Boolean to override global configuration to denormalize the column when is set to null value
+                    </td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>denormalizeUndefined</code></td>
+                    <td>Boolean to override global configuration to denormalize the column when is set to undefined
+                        value
+                    </td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>normalizeNull</code></td>
+                    <td>Boolean to override global configuration to normalize the column when is set to null value</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td><code>normalizeUndefined</code></td>
+                    <td>Boolean to override global configuration to normalize the column when is set to undefined
+                        value
+                    </td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <p>
+                The <code>field</code> and <code>type</code> fields can be defined using a shorthand. For
+                <code>field</code>, just specify a string directly in the
+                context, it will be interpreted as such. Same thing for <code>type</code> : specify directly an
+                anonymous function returning the type in the context
+                (as shown in the example).
+            </p>
+
+            <h3 id="path-parameters-and-pathcolumn">Path parameters and PathColumn</h3>
+
+            <p>
+                You can add parameters on a resource path using <code>:</code> character. You can map those parameters
+                with values using the <a href="#query">query system</a>.
+            </p>
+
+            <p>
+                <code>@PathColumn()</code> decorator allows you to retrieve the path parameter value of a resource and
+                map it to the decorated
+                field.
+            </p>
+
+            @@include('../../../templates/code-header.html', {
+            'id' : 'book-model-ts',
+            'name' : 'book.model.ts'
+            })
+            <pre>
+                <code class="lang-typescript"><span class="hljs-keyword">import</span> { HttpResource } from <span
+                        class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { Id, Column, PathColumn } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+
+<span class="hljs-meta">@HttpResource({
+  path: <span class="hljs-meta-string">'/libraries/:libraryId/books'</span>
+})</span>
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span> </span>{
+
+  <span class="hljs-meta">@Id()</span>
+  <span class="hljs-keyword">public</span> id: number;
+
+  <span class="hljs-meta">@Column()</span>
+  <span class="hljs-keyword">public</span> title: string;
+
+  <span class="hljs-meta">@PathColumn()</span>
+  <span class="hljs-keyword">public</span> libraryId: string;
+
+  <span class="hljs-comment">// or</span>
+
+  <span class="hljs-meta">@PathColumn(<span class="hljs-meta-string">'libraryId'</span>)</span>
+  <span class="hljs-keyword">public</span> theLibraryId: string;
+
+}
+                </code>
+            </pre>
+
+            <h3 id="joincolumn">JoinColumn</h3>
+            <p>You can fetch associated resources using <code>JoinColumn</code>.</p>
+            <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { HttpResource } from <span
+                    class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { Id, Column, JoinColumn } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+<span class="hljs-keyword">import</span> { FirestoreRepository } from <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
+<span class="hljs-meta">@HttpResource</span>({
+<span class="hljs-symbol">  path:</span> <span class="hljs-string">'/libraries/:libraryId/books'</span>
+})
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span> {</span>
+  <span class="hljs-meta">@Id</span>()
+  <span class="hljs-keyword">public</span> <span class="hljs-string">id:</span> number;
+  <span class="hljs-meta">@Column</span>()
+  <span class="hljs-keyword">public</span> <span class="hljs-string">title:</span> string;
+  <span class="hljs-meta">@Column</span>()
+  <span class="hljs-keyword">public</span> <span class="hljs-string">authorId:</span> string;
+  <span class="hljs-comment">// initialize the request to get associated author, using instance attribute 'authorId' with User FirestoreRepository</span>
+  <span class="hljs-meta">@JoinColumn</span>({<span class="hljs-string">attribute:</span> <span class="hljs-string">'authorId'</span>, <span
+                        class="hljs-string">resourceType:</span> () =&gt; User, <span
+                        class="hljs-string">repository:</span> () =&gt; FirestoreRepository})
+  <span class="hljs-keyword">public</span> <span class="hljs-string">author$:</span> Observable&lt;Person&gt;; <span
+                        class="hljs-comment">// data will be lazy fetched on subscribe</span>
+}
+</code></pre>
+            <h3 id="subcollection">SubCollection</h3>
+            <p>You can fetch associated resources using <code>SubCollection</code>.</p>
+            <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { HttpResource, HttpRepository } from <span
+                    class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { Id, Column, SubCollection } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+<span class="hljs-meta">@HttpResource</span>({
+<span class="hljs-symbol">  path:</span> <span class="hljs-string">'/libraries/:libraryId/books'</span>
+})
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span> {</span>
+  <span class="hljs-meta">@Id</span>()
+  <span class="hljs-keyword">public</span> <span class="hljs-string">id:</span> number;
+  <span class="hljs-meta">@Column</span>()
+  <span class="hljs-keyword">public</span> <span class="hljs-string">title:</span> string;
+  <span class="hljs-comment">// you should specify the corresponding resource, how to request resources and the repository to use</span>
+  <span class="hljs-meta">@SubCollection</span>({
+<span class="hljs-symbol">    resourceType:</span> () =&gt; Comment,
+    <span class="hljs-comment">// params are extra information context request (for example libraryId in path) </span>
+<span class="hljs-symbol">    params:</span> (<span class="hljs-string">book:</span> Book, <span class="hljs-string">params:</span> any) =&gt; <span
+                        class="hljs-keyword">new</span> CommentQuery({<span class="hljs-string">bookId:</span> book.id, <span
+                        class="hljs-string">libraryId:</span> params.libraryId}),
+<span class="hljs-symbol">    repository:</span> () =&gt; HttpRepository
+  })
+  <span class="hljs-keyword">public</span> <span class="hljs-string">comments$:</span> Observable&lt;Comment[]&gt;;
+}
+</code></pre>
+
+            <h3 id="query">Query</h3>
+            <p>With NgxRepository, a Query is an object holding some informations associated with the querying of one or
+                several
+                resources. You can then provide an instance of this Query as a parameter of any method available on
+                <code>HttpRepository</code>
+                or <code>FirestoreRepository</code>.</p>
+            <p>Here is an example of a query for a <code>@HttpResource()</code> :</p>
+            <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { HttpQueryParam, HttpHeader } from <span
+                    class="hljs-string">'@paddls/ngx-http-repository'</span>;
+<span class="hljs-keyword">import</span> { PathParam } from <span class="hljs-string">'@paddls/ngx-repository'</span>;
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span
+                        class="hljs-title">BookQuery</span> </span>{
+  <span class="hljs-comment">// use http query param</span>
+  <span class="hljs-meta">@HttpQueryParam()</span> <span class="hljs-comment">// param is forwarded into http query param</span>
+  <span class="hljs-keyword">public</span> title: string;
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-meta">@HttpQueryParam(<span class="hljs-meta-string">'title'</span>)</span>
+  <span class="hljs-keyword">public</span> theTitle: string;
+  <span class="hljs-comment">// use path param</span>
+  <span class="hljs-meta">@PathParam()</span> <span
+                        class="hljs-comment">// param replace :libraryId into resource path</span>
+  <span class="hljs-keyword">public</span> libraryId: string;
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-meta">@PathParam(<span class="hljs-meta-string">'libraryId'</span>)</span>
+  <span class="hljs-keyword">public</span> library: string;
+  <span class="hljs-comment">// use http header</span>
+  <span class="hljs-meta">@HttpHeader()</span> <span class="hljs-comment">// path is forwarded into http header</span>
+  <span class="hljs-keyword">public</span> page: number = <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// or</span>
+  <span class="hljs-meta">@HttpHeader(<span class="hljs-meta-string">'itemPerPage'</span>)</span>
+  <span class="hljs-keyword">public</span> size: number = <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span
+                        class="hljs-keyword">data</span>: Partial&lt;BookQuery&gt; = {}) {
+    Object.assign(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">data</span>);
+  }
+}
+</code></pre>
+            <p>And an example of a query for a <code>@FirestoreResource()</code> :</p>
+            <pre><code class="lang-typescript"><span class="hljs-keyword">import</span> {
+  FirestoreCriteria,
+  FirestoreEndAt,
+  FirestoreEndBefore,
+  FirestoreLimit,
+  FirestoreLimitToLast,
+  FirestoreOrderBy,
+  FirestoreOrderByContext,
+  FirestoreStartAfter,
+  FirestoreStartAt
+} from <span class="hljs-string">'@paddls/ngx-firestore-repository'</span>;
+export <span class="hljs-class"><span class="hljs-keyword">class</span> <span
+                        class="hljs-title">ClientQuery</span> </span>{
+  <span class="hljs-meta">@FirestoreCriteria({field: <span class="hljs-meta-string">'lastName'</span>, operator: <span
+          class="hljs-meta-string">'=='</span>})</span>
+  <span class="hljs-keyword">public</span> lastNameEqual?: string;
+  <span class="hljs-meta">@FirestoreOrderBy()</span>
+  <span class="hljs-keyword">public</span> orderBy?: string | FirestoreOrderByContext | (FirestoreOrderByContext | string)[];
+  <span class="hljs-meta">@FirestoreStartAt()</span>
+  <span class="hljs-keyword">public</span> startAt?: any;
+  <span class="hljs-meta">@FirestoreStartAfter()</span>
+  <span class="hljs-keyword">public</span> startAfter?: any;
+  <span class="hljs-meta">@FirestoreEndAt()</span>
+  <span class="hljs-keyword">public</span> endAt?: any;
+  <span class="hljs-meta">@FirestoreEndBefore()</span>
+  <span class="hljs-keyword">public</span> endBefore?: any;
+  <span class="hljs-meta">@FirestoreLimit()</span>
+  <span class="hljs-keyword">public</span> limit?: number;
+  <span class="hljs-meta">@FirestoreLimitToLast()</span>
+  <span class="hljs-keyword">public</span> limitToLast?: number;
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">constructor</span>(<span
+                        class="hljs-keyword">data</span>: Partial&lt;ClientQuery&gt; = {}) {
+    Object.assign(<span class="hljs-keyword">this</span>, <span class="hljs-keyword">data</span>);
+  }
+}
+</code></pre>
+            <p>The following table lists all the type of fields you can add to a query object and with which repository
+                they are
+                available.</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>Decorator</th>
+                    <th>Description</th>
+                    <th>Repository type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><code>@PathParam()</code></td>
+                    <td>Replaces path parameter with field value</td>
+                    <td><code>HttpRepository</code>, <code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@HttpQueryParam()</code></td>
+                    <td>Adds a query param to the HTTP request (eg. <code>/users/?name=Oscar</code>)</td>
+                    <td><code>HttpRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@HttpHeader()</code></td>
+                    <td>Adds a HTTP header to the request with field value</td>
+                    <td><code>HttpRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreCriteria()</code></td>
+                    <td>Adds a Firestore query criteria</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreOrderBy()</code></td>
+                    <td>Adds a <code>.orderBy()</code> clause to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreLimit()</code></td>
+                    <td>Adds a <code>.limit()</code> clause to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreLimitToLast()</code></td>
+                    <td>Adds a <code>.limitToLast()</code> clause to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreStartAt()</code></td>
+                    <td>Adds a <code>.startAt()</code> query cursor to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreStartAfter()</code></td>
+                    <td>Adds a <code>.startAfter()</code> query cursor to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreEndAt()</code></td>
+                    <td>Adds a <code>.endAt()</code> query cursor to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                <tr>
+                    <td><code>@FirestoreEndBefore()</code></td>
+                    <td>Adds a <code>.endBefore()</code> query cursor to Firestore request</td>
+                    <td><code>FirestoreRepository</code></td>
+                </tr>
+                </tbody>
+            </table>
+            <p>The following example shows a query used in a <code>findAll()</code> operation on a Firestore resource.
+            </p>
+            <pre><code class="lang-typescript">@Injectable()
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span
+                        class="hljs-title">ClientService</span> {</span>
+  @InjectRepository({<span class="hljs-name">resourceType</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> Client, <span
+                        class="hljs-name">repository</span>: <span class="hljs-function"><span
+                        class="hljs-params">()</span> =&gt;</span> FirestoreRepository})
+  private <span class="hljs-name">repository</span>: FirestoreRepository&lt;Client, <span
+                        class="hljs-built_in">string</span>&gt;;
+  public searchByLastName(<span class="hljs-name">searchedLastName</span>: <span class="hljs-built_in">string</span>): Observable&lt;Page&lt;Client&gt;&gt; {
+    <span class="hljs-keyword">return</span> this.repository.findAll(new ClientQuery({
+      <span class="hljs-name">lastNameEqual</span>: searchedLastName,
+      <span class="hljs-name">orderBy</span>: [<span class="hljs-string">'firstName'</span>]
+    }));
+  }
+}
+</code></pre>
+
+
+        </div>
+    </article>
+
+    <nav class="toc">
+        <ul class="toc-list"></ul>
+    </nav>
+</section>
+
+</body>
+
+<script src="scripts.js"></script>
+</html>

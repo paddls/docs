@@ -1,0 +1,117 @@
+<html lang="en">
+@@include('../../../templates/head.html', {
+'title' : '@paddls/ngx-repository',
+'description' : 'RxJS Common'
+})
+
+<body>
+@@include('../../../templates/header.html')
+
+<section class="content">
+    <div class="summary-container">
+        @@include('../../../templates/summary/repository.html')
+    </div>
+
+    <div class="floating-summary-container">
+        @@include('../../../templates/summary/repository.html')
+    </div>
+
+    <article onscroll="onArticleScroll()">
+        <div class="content-container">
+            <h2 id="resource-configuration">Resource configuration</h2>
+
+            <p>You can configure your resource to your needs by adding context to <code>@HttpResource()</code>
+                and <code>@FirestoreResource()</code> resource decorators.</p>
+            <blockquote>
+                <p>For example, you may need to specify a different path to your resource depending on
+                    the operation. This can be done by using the syntax in the following example.</p>
+                <pre><code class="lang-typescript"><span class="hljs-meta">@HttpResource</span>({
+  path: <span class="hljs-string">'/libraries'</span>,
+  update: <span class="hljs-string">'/library'</span>,
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span
+                            class="hljs-title">Library</span> </span>{
+}
+</code></pre>
+            </blockquote>
+            <p>For each operation execution, NgxRepository will look for a specific context attached to the operation
+                for the resource.
+                If no specific context is found, the default context
+                (here the <code>path</code>) will be used.</p>
+            <p>The available configuration is different depending on the type of resource and the targeted
+                operation.</p>
+            <p>The targetable operations are the following :</p>
+            <ul>
+                <li><code>findById</code></li>
+                <li><code>findOne</code></li>
+                <li><code>findAll</code></li>
+                <li><code>create</code></li>
+                <li><code>update</code></li>
+                <li><code>patch</code></li>
+                <li><code>delete</code></li>
+                <li><code>read</code></li>
+                <li><code>write</code></li>
+            </ul>
+            <h3 id="response-type">Response type</h3>
+            <p>Define a specific response type (different from the resource) using <code>responseType</code>
+                context parameter.</p>
+            <pre><code class="lang-typescript">@HttpResource({
+  <span class="hljs-name">path</span>: <span class="hljs-string">'/libraries'</span>,
+  <span class="hljs-name">write</span>: {
+    <span class="hljs-name">responseType</span>: <span class="hljs-function"><span
+                        class="hljs-params">()</span> =&gt;</span> WriteLibraryDto
+  }
+})
+<span class="hljs-keyword">export</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span
+                        class="hljs-title">Library</span> {</span>
+}
+</code></pre>
+            <h3 id="path">Path</h3>
+            <p>Define a specific path for an operation using <code>path</code> context parameter. Passing a string
+                directly as an operation
+                context is also possible to define the <code>path</code> context parameter.</p>
+            <blockquote>
+                <p>⚠️ This context parameter is only available for <code>@HttpResource()</code></p>
+                <pre><code class="lang-typescript"><span class="hljs-variable">@HttpResource</span>({
+  <span class="hljs-attribute">path</span>: <span class="hljs-string">'/libraries'</span>,
+  <span class="hljs-attribute">create</span>: {
+    <span class="hljs-attribute">path</span>: <span class="hljs-string">'/create-a-library'</span>
+  },
+  <span class="hljs-attribute">update</span>: <span class="hljs-string">'/update-a-library'</span>
+})
+export class Library {
+}
+</code></pre>
+            </blockquote>
+            <h3 id="page-response-processor">Page response processor</h3>
+            <p>Define a specific <a href="#page-response-processor">page response processor</a> using
+                <code>pageResponseProcessor</code> context parameter.</p>
+            <blockquote>
+                <p>⚠️ This context parameter is only available for <code>findAll</code> operation and
+                    <code>@HttpResource()</code></p>
+                <pre><code class="lang-typescript"><span class="hljs-variable">@HttpResource</span>({
+  <span class="hljs-attribute">path</span>: <span class="hljs-string">'/libraries'</span>,
+  <span class="hljs-attribute">findAll</span>: {
+    <span class="hljs-attribute">pageResponseProcessor</span>: MyPageResponseProcessor
+  }
+})
+export class Library {
+}
+</code></pre>
+            </blockquote>
+            <h3 id="global-configuration">Global configuration</h3>
+            <p>It is also possible to add some global configuration by adding it directly in the
+                <code>forRoot()</code> method of your driver module import.</p>
+
+        </div>
+    </article>
+
+    <nav class="toc">
+        <ul class="toc-list"></ul>
+    </nav>
+</section>
+
+</body>
+
+<script src="scripts.js"></script>
+</html>

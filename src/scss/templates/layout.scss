@@ -17,30 +17,30 @@ body {
 }
 
 section.hero {
-  padding: 4rem 3rem;
-  height: 400px;
+  padding: 8rem 15%;
+  height: 500px;
   position: relative;
   z-index: 1;
   transition: all 0.2s ease-in-out;
+  background: url('../img/hero.jpg');
+  background-size: cover;
 
   &:before {
     position: absolute;
-    z-index: -1;
-    content: '';
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.5;
-    background-image: url('../img/paddls.png');
-    background-repeat: no-repeat;
-    background-position: right -10%;
+    content: '';
+    background: rgba(255, 255, 255, .4);
+    backdrop-filter: blur(2px);
+    z-index: -1;
   }
 }
 
 section.description {
   padding: 4rem 3rem;
-  background-color: $background-gray;
+  background-color: $light-gray;
 
   p {
     width: 50%;
@@ -62,10 +62,13 @@ section.content {
     ul {
       text-transform: uppercase;
       font-weight: bold;
-      letter-spacing: 1px;
       color: $body-color;
       font-size: 0.8rem;
       font-family: 'Chillax-Bold', sans-serif;
+
+      a:hover {
+        color: $primary;
+      }
 
       ul {
         font-weight: normal;
@@ -137,23 +140,65 @@ h2.index {
   }
 
   .library-card {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: $background-gray;
-    border: 1px $border-button-gray solid;
     border-radius: 0.5rem;
-    height: 100%;
+    height: 12rem;
+    position: relative;
+    overflow: hidden;
+
+    &#rxjs-article {
+      background: rgb(93, 40, 138);
+      background: linear-gradient(8deg, rgba(93, 40, 138, 0.35477941176470584) 0%, rgba(237, 2, 143, 0.30155812324929976) 70%);
+    }
+
+    &#repository-article {
+      background: rgb(34, 193, 195);
+      background: linear-gradient(0deg, rgba(34, 193, 195, 0.34637605042016806) 0%, rgba(45, 253, 176, 0.3491771708683473) 100%);
+    }
+
+    #repository {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      filter: blur(1px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      em {
+        color: #147273;
+      }
+    }
+
+    #rxjs {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: url("../img/rxjs.png");
+      background-size: cover;
+      filter: blur(1px);
+    }
+
+    .description {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 3rem;
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(4px);
+      padding: 0 1rem;
+    }
 
     h4 {
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 1px;
+      font-weight: 600;
       color: $body-color;
-      font-size: 1rem;
-      padding-top: 1rem;
+      font-size: 0.875rem;
+      margin-bottom: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    p {
+      font-size: 0.75rem;
+      color: lighten($body-color, 20%);
     }
   }
 }
